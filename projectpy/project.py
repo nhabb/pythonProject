@@ -2,8 +2,7 @@ import sys
 import csv
 import re
 import os
-from tabulate import tabulate
-
+from tabulate import tabulate  ## to remove before presentation : there is a type check error here because there is some type faults in the code 
 def main() :
 
     while True:
@@ -131,14 +130,14 @@ def courseAverage(cName , cYear) :
 
 
 def stdGrades( stdID ) :
-
+#CORRECTION replaced undeclared variable files in the lines below to file without s which was initially declared 
     with open( "courses.csv" ) as file :
         reader = csv.reader( file )
         for row in reader :
-            files.append( row[1] )
+            file.append( row[1] )
 
     stdRecord = []
-    for name in files[1:] :
+    for name in file[1:] :
         with open( name+".csv" ) as file :
             reader = csv.reader( file )
             for row in reader :
