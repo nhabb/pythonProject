@@ -88,6 +88,7 @@ def checkGrade( grade ) :
 
 def listCourses() :
     courses = []
+    #changed f to file to make the name correct
     with open("courses.csv" ) as file :
         reader = csv.reader( file )
         for row in reader:
@@ -116,7 +117,6 @@ def updateCourse( cName , cYear ) :
                 writer.writerow( [cYear , stID , grade ] )
 
 def courseAverage(cName , cYear) :
-
     with open( cName+".csv" ) as file :
         reader = csv.reader( file )
         for row in reader:
