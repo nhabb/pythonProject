@@ -2,7 +2,7 @@ import sys
 import csv
 import re
 import os
-from tabulate import table
+from tabulate import tabulate
 
 def main() :
 
@@ -89,7 +89,7 @@ def checkGrade( grade ) :
 
 def listCourses() :
     courses = []
-    with open( "courses.csv" ) as f :
+    with open("courses.csv" ) as file :
         reader = csv.reader( file )
         for row in reader:
             courses.append( row )
