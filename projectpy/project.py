@@ -2,6 +2,7 @@ import sys
 import csv
 import re
 import os
+#CORRECTION changed table to the correct tabulate function
 from tabulate import tabulate  ## to remove before presentation : there is a type check error here because there is some type faults in the code 
 def main() :
 
@@ -74,6 +75,14 @@ def checkIN( n ) :
     return nb
 
 def checkYear( n ) :
+    '''
+    #SEARCH function re.search takes a string and checks if the string is of exactly 4 characters if not it raises a Valueerror
+    #r it handles the '\' ( raw string literal) like a character not like "\ n".
+    # ^ indicates start of string.
+    #  \d{4} it means the string must contain 4 digits.
+    # "," A literal comma, matching exactly one comma in the input string.
+    # "$" asserts the end of the string.
+    '''
     if not re.search( r"^\d{4}$" , n ) :
         raise ValueError
     else :
@@ -93,7 +102,8 @@ def listCourses() :
         reader = csv.reader( file )
         for row in reader:
             courses.append( row )
-    print( "\n" , tabulate( courses[1:] , courses[0] , tablefmt = "github" ) , "\n" , sep = "" )
+    #TABPRINT tabulate is a function from tabulate module ,converting data into human-readable table with Github format having the list course[0] as a header, and the lists courses[1:] as data of the tables
+    print( "\n" , tabulate( courses[1:] , courses[0] , tablefmt = "github" ) , "\n" , sep = "" ) ##suggestion to adjust courses list name to listofcourses for more readable content
 
 def addCourse( cName , cID , semester ) :
     with open( "courses.csv" , "a" , newline='' , encoding = 'utf-8'  ) as file :
@@ -135,7 +145,18 @@ def stdGrades( stdID ) :
         reader = csv.reader( file )
         for row in reader :
             file.append( row[1] )
-
+    '''
+    #SEARCH function re.search takes a string and checks if the string is of exactly 4 characters if not it raises a Valueerror
+    #r it handles the '\' ( raw string literal) like a character not like "\ n".
+    # ^ indicates start of string.
+    #  \d{4} it means the string must contain 4 digits.
+    # "," A literal comma, matching exactly one comma in the input string.
+    # "$" asserts the end of the string.
+    # "%s" is a placeholder for the value of stdID. The % operator performs string formatting, substituting the value of stdID into the regular expression.
+        This part will match the exact value of stdID in the input string. (replace value of stdID in the file)
+    #  \d{1,3} it means the string must contain 1 to 3 digits.
+    # re.IGNORECASE flag that makes the search insensitive 
+    '''
     stdRecord = []
     for name in file[1:] :
         with open( name+".csv" ) as file :
@@ -153,3 +174,6 @@ def stdGrades( stdID ) :
 
 if __name__ == "__main__" :
     main()
+
+## we need to add file reading handling  
+## force user to use case 3 before using case 5 
