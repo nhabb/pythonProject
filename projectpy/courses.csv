@@ -1,4 +1,5 @@
-Title,ID,Semester
-Python,I2232,4
-Graph,I2205,5
-cpp,I2204,3
+Course Title,Course ID,Semester
+Math,101,Fall
+Physics,102,Spring
+Chemistry,103,Summer
+Bio,104,Fall
