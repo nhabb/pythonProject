@@ -41,6 +41,12 @@ def main() :
                 case 3 :
                     os.system('cls')
                     cName = input( "Course ID: " )
+                    try :
+                        cYear = checkYear(input( "Year: " ))
+                    except ValueError:
+                        print( "Invalid input for year" )
+                    else :
+                        updateCourse( cName , cYear )
 
                 case 4 :
                     os.system('cls')
