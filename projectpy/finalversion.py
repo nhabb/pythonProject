@@ -139,18 +139,21 @@ def courseAverage(cName , cYear) :
             raise( ValueError )
         
 def stdGrades(stdID):
+    #CORRECTION incorrrect use of append method was used to append files but is not supported for files
     grades = []
+    #CORRECTION added try except cases for error handling in except blocks 
     try:
         with open("courses.csv", "r", encoding="utf-8") as file:
             reader = csv.reader(file)
-            course_ids = [row[1] for row in reader][1:]
-        for course_id in course_ids:
+            cIDs = [row[1] for row in reader][1:]
+        for cID in cIDs:
             try:
-                with open(f"{course_id}.csv", "r", encoding="utf-8") as file:
+                with open(f"{cID}.csv", "r", encoding="utf-8") as file:
                     reader = csv.reader(file)
                     for row in reader:
                         if row[1] == stdID:
-                            grades.append([course_id, row[0], row[2]])
+                            #CORRECTION reading student grades as lists and adding them by append
+                            grades.append([cID, row[0], row[2]])
     #SEARCH function re.search takes a string and checks if the string is of exactly 4 characters if not it raises a Valueerror
     #r it handles the '\' ( raw string literal) like a character not like "\ n".
     # ^ indicates start of string.
@@ -162,7 +165,7 @@ def stdGrades(stdID):
     #  \d{1,3} it means the string must contain 1 to 3 digits.
     # re.IGNORECASE flag that makes the search insensitive
             except FileNotFoundError:
-                print(f"Course file '{course_id}.csv' is missing.")
+                print(f"Course file '{cID}.csv' is missing.")
         if grades:
             print("\n" + tabulate(grades, headers=["Course", "Year", "Grade"], tablefmt="github"))
         else:
@@ -173,6 +176,3 @@ def stdGrades(stdID):
 
 if __name__ == "__main__" :
     main()
-
-## we need to add file reading handling  
-## force user to use case 3 before using case 5 
