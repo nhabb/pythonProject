@@ -64,7 +64,10 @@ def main() :
                 case 5 :
                     os.system('cls')
                     stdID = input( "Student ID: " )
-                    stdGrades( stdID )
+                    if not stdGrades( stdID ) :
+                        createFile()
+                    else :
+                        stdGrades(stdID)
 
                 case _ :
                     sys.exit( "Incorrect value" )
@@ -165,14 +168,28 @@ def stdGrades(stdID):
     #  \d{1,3} it means the string must contain 1 to 3 digits.
     # re.IGNORECASE flag that makes the search insensitive
             except FileNotFoundError:
-                print(f"Course file '{cID}.csv' is missing.")
+                #CORRECTION adjusting function behavior in order to avoid missing files while using case 5
+                print(f"Course file '{cID}.csv' is missing. Creating new file...")
+                return False
         if grades:
             print("\n" + tabulate(grades, headers=["Course", "Year", "Grade"], tablefmt="github"))
+            return True
         else:
             print(f"No grades found for student ID '{stdID}'.")
+            return True
     except FileNotFoundError:
         print("Courses file not found.")
+        return False
 
+def createFile():
+    cname = input("Enter course name: ")
+    cID = input("Enter course ID: ")
+    semester = input("Enter semester: ")
+    year = input("Enter year: ")
+    addCourse(cname,cID,semester)
+    updateCourse(cID,year)
+
+## we need to make addcourse to make files for invalid courses and not new files for unfound students as we did 
 
 if __name__ == "__main__" :
     main()
