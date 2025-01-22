@@ -142,44 +142,49 @@ def courseAverage(cName , cYear) :
             raise( ValueError )
         
 def stdGrades(stdID):
-    #CORRECTION incorrrect use of append method was used to append files but is not supported for files
-    grades = []
-    #CORRECTION added try except cases for error handling in except blocks 
+    #Correction added declaration for list files 
+    files = []
     try:
-        with open("courses.csv", "r", encoding="utf-8") as file:
+        with open("courses.csv") as file:
             reader = csv.reader(file)
-            cIDs = [row[1] for row in reader][1:]
-        for cID in cIDs:
-            try:
-                with open(f"{cID}.csv", "r", encoding="utf-8") as file:
-                    reader = csv.reader(file)
-                    for row in reader:
-                        if row[1] == stdID:
-                            #CORRECTION reading student grades as lists and adding them by append
-                            grades.append([cID, row[0], row[2]])
-    #SEARCH function re.search takes a string and checks if the string is of exactly 4 characters if not it raises a Valueerror
-    #r it handles the '\' ( raw string literal) like a character not like "\ n".
-    # ^ indicates start of string.
-    #  \d{4} it means the string must contain 4 digits.
-    # "," A literal comma, matching exactly one comma in the input string.
-    # "$" asserts the end of the string.
-    # "%s" is a placeholder for the value of stdID. The % operator performs string formatting, substituting the value of stdID into the regular expression.
-    #This part will match the exact value of stdID in the input string. (replace value of stdID in the file)
-    #  \d{1,3} it means the string must contain 1 to 3 digits.
-    # re.IGNORECASE flag that makes the search insensitive
-            except FileNotFoundError:
-                #CORRECTION adjusting function behavior in order to avoid missing files while using case 5
-                print(f"Course file '{cID}.csv' is missing. Creating new file...")
-                return False
-        if grades:
-            print("\n" + tabulate(grades, headers=["Course", "Year", "Grade"], tablefmt="github"))
-            return True
-        else:
-            print(f"No grades found for student ID '{stdID}'.")
-            return True
+            for row in reader:
+                files.append(row[1])
     except FileNotFoundError:
-        print("Courses file not found.")
-        return False
+        print("Error: 'courses.csv' file not found.")
+        return
+    except Exception as e:
+        print(f"Error: Unable to read 'courses.csv'. {e}")
+        return
+
+    stdRecord = []
+
+    for name in files[1:]:
+        try:
+            with open(name + ".csv") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    # SEARCH function re.search takes a string and checks if the string is of exactly 4 characters if not it raises a ValueError
+                    # r it handles the '\\' ( raw string literal) like a character not like "\\ n".
+                    # ^ indicates start of string.
+                    # \\d{4} it means the string must contain 4 digits.
+                    # "," A literal comma, matching exactly one comma in the input string.
+                    # "$" asserts the end of the string.
+                    # "%s" is a placeholder for the value of stdID. The % operator performs string formatting, substituting the value of stdID into the regular expression.
+                    # This part will match the exact value of stdID in the input string. (replace value of stdID in the file)
+                    # \\d{1,3} it means the string must contain 1 to 3 digits.
+                    # re.IGNORECASE flag that makes the search insensitive
+                    if matches := re.search(r"^(\\d{4}),%s,(\\d{1,3})$" % stdID, ','.join(row), re.IGNORECASE):
+                        stdRecord.append([name, matches.group(1), matches.group(2)])
+        except FileNotFoundError:
+            #correction added error handling for file not found errors 
+            print(f"Warning: '{name}.csv' file not found. Skipping.")
+        except Exception as e:
+            print(f"Error: Unable to read '{name}.csv'. {e}")
+
+    if len(stdRecord):
+        print(tabulate(stdRecord, headers=["Course", "Year", "Grade"], tablefmt="github"))
+    else:
+        print("Student ID not found")
 
 def createFile():
     cname = input("Enter course name: ")
@@ -193,34 +198,3 @@ def createFile():
 
 if __name__ == "__main__" :
     main()
-
-def stdGrades( stdID ) :
-    files = []
-    with open( "courses.csv" ) as file :
-        reader = csv.reader( file )
-        for row in reader :
-            files.append( row[1] )
-
-    stdRecord = []
-    for name in files[1:] :
-        with open( name+".csv" ) as file :
-            reader = csv.reader( file )
-            for row in reader :
-                if matches := re.search( r"^(\d{4}),%s,(\d{1,3})$" %stdID , ','.join(row) , re.IGNORECASE ) :
-    #SEARCH function re.search takes a string and checks if the string is of exactly 4 characters if not it raises a Valueerror
-    #r it handles the '\' ( raw string literal) like a character not like "\ n".
-    # ^ indicates start of string.
-    #  \d{4} it means the string must contain 4 digits.
-    # "," A literal comma, matching exactly one comma in the input string.
-    # "$" asserts the end of the string.
-    # "%s" is a placeholder for the value of stdID. The % operator performs string formatting, substituting the value of stdID into the regular expression.
-    #This part will match the exact value of stdID in the input string. (replace value of stdID in the file)
-    #  \d{1,3} it means the string must contain 1 to 3 digits.
-    # re.IGNORECASE flag that makes the search insensitive
-                    stdRecord.append( [name , matches.group(1) , matches.group(2)] )
-
-    if len(stdRecord) :
-        print( tabulate( stdRecord , headers = [ "Course" , "Year" , "Grade" ] , tablefmt = "github" ) )
-    else :
-        print( "Student ID not found" )
-    
