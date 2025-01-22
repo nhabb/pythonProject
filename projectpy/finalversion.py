@@ -32,14 +32,18 @@ def main() :
 
                 case 2 :
                     os.system('cls')
-                    cName = input( "Course Title: " )
                     cID = input( "Course ID: " )
-                    semester = input( "Semester: " )
-                    addCourse(cName , cID, semester  )
+                    #correction added checkCourse function to avoid creating an existing file
+                    if not checkCourse(cID):
+                        cName = input( "Course Title: " )
+                        semester = input( "Semester: " )
+                        addCourse(cName , cID, semester )
+                    else:
+                        print("Course already exists!")
 
                 case 3 :
                     os.system('cls')
-                    cName = input( "Course ID: " )
+                    cName = input( "Course Name: " )
                     try :
                         cYear = checkYear(input( "Year: " ))
                     except ValueError:
@@ -50,7 +54,7 @@ def main() :
                 case 4 :
                     os.system('cls')
                     try :
-                        cName = input( "Course ID: " )
+                        cName = input( "Course Name: " )
                         cYear = checkYear(input( "Year: " ))
                         average = courseAverage( cName , cYear )
                     except FileNotFoundError:
@@ -172,6 +176,7 @@ def stdGrades(stdID):
                     # \\d{1,3} it means the string must contain 1 to 3 digits.
                     # re.IGNORECASE flag that makes the search insensitive
                     if matches := re.search( r"^(\d{4}),%s,(\d{1,3})$" %stdID , ','.join(row) , re.IGNORECASE ) :
+                        #Search group method used to locate grp 1 and 2 from the re.search
                         stdRecord.append( [name , matches.group(1) , matches.group(2)] )
         except FileNotFoundError:
             #correction added error handling for file not found errors 
@@ -197,6 +202,19 @@ def createFile():
     year = input("Enter year: ")
     addCourse(cname,cID,semester)
     updateCourse(cID,year)
+
+def checkCourse(cID):
+    try:
+        with open("courses.csv") as file:
+            reader = csv.reader(file)
+            for row in reader:
+                # Check if the course ID matches exactly in any row of the CSV
+                if len(row) > 1 and row[1] == cID:
+                    return True  # Course exists
+        return False  # Course does not exist
+    except FileNotFoundError:
+        print("Error: 'courses.csv' file not found.")
+        return False
 
 if __name__ == "__main__" :
     main()
