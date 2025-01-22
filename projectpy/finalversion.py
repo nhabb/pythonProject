@@ -62,12 +62,11 @@ def main() :
 
                 
                 case 5 :
+                    #Correction Added an if condition to handle error of using this case before case 3
                     os.system('cls')
                     stdID = input( "Student ID: " )
                     if not stdGrades( stdID ) :
                         createFile()
-                    else :
-                        stdGrades(stdID)
 
                 case _ :
                     sys.exit( "Incorrect value" )
@@ -152,10 +151,8 @@ def stdGrades(stdID):
     #Correction added return to properly use function in main match case
     except FileNotFoundError:
         print("Error: 'courses.csv' file not found.")
-        return False
     except Exception as e:
         print(f"Error: Unable to read 'courses.csv'. {e}")
-        return False
 
     stdRecord = []
 
@@ -179,8 +176,10 @@ def stdGrades(stdID):
         except FileNotFoundError:
             #correction added error handling for file not found errors 
             print(f"Warning: '{name}.csv' file not found. Skipping.")
+            return False
         except Exception as e:
             print(f"Error: Unable to read '{name}.csv'. {e}")
+            return False
 
     if len(stdRecord):
         print(tabulate(stdRecord, headers=["Course", "Year", "Grade"], tablefmt="github"))
@@ -189,6 +188,8 @@ def stdGrades(stdID):
         print("Student ID not found")
         return False
 
+
+#correction added a function to handle the error occuring in case 5
 def createFile():
     cname = input("Enter course name: ")
     cID = input("Enter course ID: ")
@@ -196,8 +197,6 @@ def createFile():
     year = input("Enter year: ")
     addCourse(cname,cID,semester)
     updateCourse(cID,year)
-
-## we need to make addcourse to make files for invalid courses and not new files for unfound students as we did 
 
 if __name__ == "__main__" :
     main()
