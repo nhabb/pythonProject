@@ -149,12 +149,13 @@ def stdGrades(stdID):
             reader = csv.reader(file)
             for row in reader:
                 files.append(row[1])
+    #Correction added return to properly use function in main match case
     except FileNotFoundError:
         print("Error: 'courses.csv' file not found.")
-        return
+        return False
     except Exception as e:
         print(f"Error: Unable to read 'courses.csv'. {e}")
-        return
+        return False
 
     stdRecord = []
 
@@ -173,8 +174,8 @@ def stdGrades(stdID):
                     # This part will match the exact value of stdID in the input string. (replace value of stdID in the file)
                     # \\d{1,3} it means the string must contain 1 to 3 digits.
                     # re.IGNORECASE flag that makes the search insensitive
-                    if matches := re.search(r"^(\\d{4}),%s,(\\d{1,3})$" % stdID, ','.join(row), re.IGNORECASE):
-                        stdRecord.append([name, matches.group(1), matches.group(2)])
+                    if matches := re.search( r"^(\d{4}),%s,(\d{1,3})$" %stdID , ','.join(row) , re.IGNORECASE ) :
+                        stdRecord.append( [name , matches.group(1) , matches.group(2)] )
         except FileNotFoundError:
             #correction added error handling for file not found errors 
             print(f"Warning: '{name}.csv' file not found. Skipping.")
@@ -183,8 +184,10 @@ def stdGrades(stdID):
 
     if len(stdRecord):
         print(tabulate(stdRecord, headers=["Course", "Year", "Grade"], tablefmt="github"))
+        return True
     else:
         print("Student ID not found")
+        return False
 
 def createFile():
     cname = input("Enter course name: ")
