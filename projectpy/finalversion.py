@@ -218,3 +218,27 @@ def checkCourse(cID):
 
 if __name__ == "__main__" :
     main()
+
+
+'''
+#SUGGESTIONS 
+    1. Student Performance prediction
+        Using machine learning to predict student performance  
+        Based on historical data (grades, attendance, study hours), we can predict future grades or identify
+        students who might need extra attention before they perform poorly. by using linear regression 
+        in order to do this we will need first to increase the data set of the program and add more section using average study hours of 
+        the student for a given course or student inclass participation we might need to import modules to train the model like skllearn 
+        for linear regression and matrix handling and spliting test
+    2. Recommandation System for courses selection 
+        we can also use machine learning to make the program suggest the next preferable courses for the student based on past courses 
+        performances 
+    3. Course dependencies and prerequistes
+        use a directed acyclic graph where every vertex represents a course. this would help organize paths to student so that they can get the 
+        best education desired 
+    4. we can use binary search tree to keep the student records in alphabetical order and avoid duplicating students 
+    5. we could implement a DFS to the course dependency graph so we will be able to present all possible paths to provide the students
+       with the most suitable academical path aligning with his preferences 
+    6. Statistical analysis 
+        starting by calculating mean,variance ,mode and so on of every course and display them using graphs and tables could also be 
+        highly helpful for previous machine learning processes    
+'''
