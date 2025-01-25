@@ -241,4 +241,6 @@ if __name__ == "__main__" :
     6. Statistical analysis 
         starting by calculating mean,variance ,mode and so on of every course and display them using graphs and tables could also be 
         highly helpful for previous machine learning processes    
+    7. SECURITY suggestion: make sure we protect the program by creating a "must password" to ensure authentication and stored using hashing technology to keep it safe 
+        as well as adding an encryption and decryption method in order to have safe data transfer in user-user or user-app interactions
 '''
