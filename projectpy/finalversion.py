@@ -111,6 +111,10 @@ def listCourses() :
     print( "\n" , tabulate( courses[1:] , courses[0] , tablefmt = "github" ) , "\n" , sep = "" ) ##suggestion to adjust courses list name to listofcourses for more readable content
 
 def addCourse( cName , cID , semester ) :
+    #CORRECTION added checkCourse function to make sure not to add already existing courses
+    if checkCourse(cID) == True:
+        print("Course already exists")    
+        return 
     with open( "courses.csv" , "a" , newline='' , encoding = 'utf-8'  ) as file :
         writer = csv.writer( file )
         writer.writerow( [cName , cID , semester] )
