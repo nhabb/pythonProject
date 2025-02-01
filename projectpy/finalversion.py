@@ -137,13 +137,18 @@ def updateCourse( cName , cYear ) :
                 writer.writerow( [cYear , stID , grade ] )
 
 def courseAverage(cName , cYear) :
+    #correction initialized the sum and nb counter to use in the counter 
+    sum = 0
+    nb = 0
     with open( cName+".csv" ) as file :
         reader = csv.reader( file )
         for row in reader:
             if row[0] == cYear :
-                sum += row[2]
+                #correction added int function to parse row string into int 
+                sum += int(row[2])
                 nb += 1
-        if sum != 0 :
+            #correction replaced sum with nb to avoid having an infinite case 
+        if nb != 0 :
             return sum / nb
         else :
             raise( ValueError )
