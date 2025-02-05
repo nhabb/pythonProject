@@ -71,6 +71,7 @@ def main() :
                     stdID = input( "Student ID: " )
                     if not stdGrades( stdID ) :
                         createFile()
+                        stdGrades (stdID)
 
                 case _ :
                     sys.exit( "Incorrect value" )
@@ -123,18 +124,33 @@ def updateCourse( cName , cYear ) :
     with open( cName+".csv" , "a" , newline='' , encoding = 'utf-8' ) as file :
         writer = csv.writer( file )
         print( "Enter student ID and grade. Type Done to exit" )
+        count = 0
         while True :
             try :
-                #CORRECTION validating that the string inputted must not have spaces 
-                stID = input( "Student ID: " ).strip()
-                if stID.lower() == "done" :
-                    break
-                grade = checkGrade( input( "Grade: " ) )
+                #CORRECTION validating that the string inputted must not have spaces  
+                #CORRECTION Added handling to make sure added file is inever empty
+                while True:
+                    stID = input("Student ID: ").strip()
+                    
+                    if stID.lower().strip() == "done" and count >= 1:
+                        return 
+                    if stID.lower() == "done":
+                        print("Please enter at least one student ID and grade before typing 'done'.")
+                    elif stID:  # If the student ID is not empty
+                        grade = input(f"Enter grade for Student ID {stID}: ").strip()
+                        
+                        if grade:  # If grade is not empty
+                            count += 1
+                            print(f"Student ID: {stID}, Grade: {grade}")
+                            writer.writerow( [cYear , stID , grade ] )
+                        else:
+                            print("Grade cannot be empty. Please enter a valid grade.")
+                    else:
+                        print("Student ID cannot be empty. Please enter a valid student ID.")
+
             except ValueError :
-                print( "Incorrect value for grade" )
-                pass
-            else :
-                writer.writerow( [cYear , stID , grade ] )
+                    pass
+            
 
 def courseAverage(cName , cYear) :
     #correction initialized the sum and nb counter to use in the counter 
@@ -189,7 +205,7 @@ def stdGrades(stdID):
                         stdRecord.append( [name , matches.group(1) , matches.group(2)] )
         except FileNotFoundError:
             #correction added error handling for file not found errors 
-            print(f"Warning: '{name}.csv' file not found. Skipping.")
+            print(f"Warning: '{name}.csv' file not found.Creating file...\nEnter student info.....")
             return False
         except Exception as e:
             print(f"Error: Unable to read '{name}.csv'. {e}")
