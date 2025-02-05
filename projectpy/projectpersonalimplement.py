@@ -239,3 +239,4 @@ def recommendCourses():
         print(f"Recommended Courses: {random.sample(courses, 3)}")  # Random course recommendation for demo
     except FileNotFoundError:
         print("Error: 'courses.csv' file not found.")
+main()
