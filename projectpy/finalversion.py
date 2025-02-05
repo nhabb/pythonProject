@@ -3,7 +3,7 @@ import csv
 import re
 import os
 #CORRECTION changed table to the correct tabulate function
-from tabulate import tabulate  ## to remove before presentation : there is a type check error here because there is some type faults in the code 
+from tabulate import tabulate   
 
 def main() :
     while True:
