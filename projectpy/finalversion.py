@@ -27,11 +27,11 @@ def main() :
                 case -1 :
                     sys.exit( "Bye Bye" )
                 case 1 :
-                    os.system('cls')
+                    os.system('clear')
                     listCourses()
 
                 case 2 :
-                    os.system('cls')
+                    os.system('clear')
                     cID = input( "Course ID: " )
                     #correction added checkCourse function to avoid creating an existing file
                     if not checkCourse(cID):
@@ -42,7 +42,7 @@ def main() :
                         print("Course already exists!")
 
                 case 3 :
-                    os.system('cls')
+                    os.system('clear')
                     cName = input( "Course Name: " )
                     try :
                         cYear = checkYear(input( "Year: " ))
@@ -52,7 +52,7 @@ def main() :
                         updateCourse( cName , cYear )
 
                 case 4 :
-                    os.system('cls')
+                    os.system('clear')
                     try :
                         cName = input( "Course Name: " )
                         cYear = checkYear(input( "Year: " ))
@@ -67,7 +67,7 @@ def main() :
                 
                 case 5 :
                     #Correction Added an if condition to handle error of using this case before case 3
-                    os.system('cls')
+                    os.system('clear')
                     stdID = input( "Student ID: " )
                     if not stdGrades( stdID ) :
                         createFile()
@@ -176,7 +176,7 @@ def stdGrades(stdID):
         with open("courses.csv") as file:
             reader = csv.reader(file)
             for row in reader:
-                files.append(row[1])
+                files.append(row[0])
     #Correction added return to properly use function in main match case
     except FileNotFoundError:
         print("Error: 'courses.csv' file not found.")
