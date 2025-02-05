@@ -128,7 +128,7 @@ def updateCourse( cName , cYear ) :
         while True :
             try :
                 #CORRECTION validating that the string inputted must not have spaces  
-                #CORRECTION Added handling to make sure added file is inever empty
+                #CORRECTION Added handling to make sure added file is never empty
                 while True:
                     stID = input("Student ID: ").strip()
                     
