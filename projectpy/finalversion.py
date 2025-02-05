@@ -137,7 +137,7 @@ def updateCourse( cName , cYear ) :
                     if stID.lower() == "done":
                         print("Please enter at least one student ID and grade before typing 'done'.")
                     elif stID:  # If the student ID is not empty
-                        grade = input(f"Enter grade for Student ID {stID}: ").strip()
+                        grade = checkGrade( input(f"Enter grade for Student ID {stID}: ")).strip()
                         
                         if grade:  # If grade is not empty
                             count += 1

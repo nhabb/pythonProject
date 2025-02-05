@@ -75,6 +75,7 @@ def main():
                     stdID = input("Student ID: ")
                     if not stdGrades(stdID):
                         createFile()
+                        stdGrades(stdID)
 
                 case 6:
                     os.system('cls')
