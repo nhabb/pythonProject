@@ -109,7 +109,7 @@ def listCourses() :
         for row in reader:
             courses.append( row )
     #TABPRINT tabulate is a function from tabulate module ,converting data into human-readable table with Github format having the list course[0] as a header, and the lists courses[1:] as data of the tables
-    print( "\n" , tabulate( courses[1:] , courses[0] , tablefmt = "github" ) , "\n" , sep = "" ) ##suggestion to adjust courses list name to listofcourses for more readable content
+    print( "\n" , tabulate( courses[1:] , courses[0] , tablefmt = "github" ) , "\n" , sep = "" ) 
 
 def addCourse( cName , cID , semester ) :
     #CORRECTION added checkCourse function to make sure not to add already existing courses
@@ -153,7 +153,7 @@ def updateCourse( cName , cYear ) :
             
 
 def courseAverage(cName , cYear) :
-    #correction initialized the sum and nb counter to use in the counter 
+    #correction initialized the sum and nb variables to use in the following as counters 
     sum = 0
     nb = 0
     with open( cName+".csv" ) as file :
@@ -176,6 +176,7 @@ def stdGrades(stdID):
         with open("courses.csv") as file:
             reader = csv.reader(file)
             for row in reader:
+                #CORRECTION replaced 1 with 0 in order to let the code read the NAME of the course and not the ID!!!!!!!!!!!!!!
                 files.append(row[0])
     #Correction added return to properly use function in main match case
     except FileNotFoundError:
@@ -193,12 +194,12 @@ def stdGrades(stdID):
                     # SEARCH function re.search takes a string and checks if the string is of exactly 4 characters if not it raises a ValueError
                     # r it handles the '\\' ( raw string literal) like a character not like "\\ n".
                     # ^ indicates start of string.
-                    # \\d{4} it means the string must contain 4 digits.
+                    # \d{4} it means the string must contain 4 digits.
                     # "," A literal comma, matching exactly one comma in the input string.
                     # "$" asserts the end of the string.
                     # "%s" is a placeholder for the value of stdID. The % operator performs string formatting, substituting the value of stdID into the regular expression.
                     # This part will match the exact value of stdID in the input string. (replace value of stdID in the file)
-                    # \\d{1,3} it means the string must contain 1 to 3 digits.
+                    # \d{1,3} it means the string must contain 1 to 3 digits.
                     # re.IGNORECASE flag that makes the search insensitive
                     if matches := re.search( r"^(\d{4}),%s,(\d{1,3})$" %stdID , ','.join(row) , re.IGNORECASE ) :
                         #Search group method used to locate grp 1 and 2 from the re.search
@@ -226,8 +227,9 @@ def createFile():
     semester = input("Enter semester: ")
     year = input("Enter year: ")
     addCourse(cname,cID,semester)
-    updateCourse(cID,year)
+    updateCourse(cname,year)
 
+#added the function due to question 6
 def checkCourse(cID):
     try:
         with open("courses.csv") as file:
@@ -247,6 +249,7 @@ if __name__ == "__main__" :
 
 '''
 #SUGGESTIONS 
+    0.ADD A LOT OF EXCEPTION HANDLING FOR EXTERNAL FILE ESPICIALLY EMPTY LINES AND SPACES.
     1. Student Performance prediction
         Using machine learning to predict student performance  
         Based on historical data (grades, attendance, study hours), we can predict future grades or identify
